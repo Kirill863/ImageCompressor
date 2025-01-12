@@ -8,9 +8,10 @@ class ImageCompressor:
 
     def __init__(self, quality: int):
         """
-        Метод класса, который принимает значение качества сжатия и инициализирует атрибут `__quality`.
+        Конструктор класса, который принимает значение качества сжатия и инициализирует атрибут `__quality`.
 
-        params: quality (int): Значение качества сжатия.
+        Args:
+            quality (int): Значение качества сжатия.
         """
         self.__quality = quality
         register_heif_opener()
@@ -19,7 +20,7 @@ class ImageCompressor:
         """
         Сжимает изображение и сохраняет его в формате HEIF.
 
-        params: 
+        Args:
             input_path (str): Путь к исходному изображению.
             output_path (str): Путь для сохранения сжатого изображения.
 
@@ -95,8 +96,21 @@ class ImageCompressor:
         else:
             print("Указанный путь не существует")
 
+def main(input_path: str, quality: int) -> None:
+    """
+    Основная функция программы. Создает экземпляр класса `ImageCompressor` и использует его методы для сжатия изображений и обработки директорий.
+
+    Args:
+        input_path (str): Путь к файлу или директории для обработки.
+        quality (int): Значение качества сжатия.
+
+    Returns:
+        None
+    """
+    compressor = ImageCompressor(quality=quality)
+    compressor.process_input(input_path)
+
 if __name__ == "__main__":
     user_input: str = input("Введите путь к файлу или директории: ")
     quality: int = int(input("Введите значение качества сжатия (1-100): "))
-    compressor = ImageCompressor(quality=quality)
-    compressor.process_input(user_input)
+    main(user_input, quality)
