@@ -6,7 +6,12 @@ from pillow_heif import register_heif_opener
 class ImageCompressor:
     supported_formats = ('.jpg', '.jpeg', '.png')
 
-    def __init__(self, quality: int = 50):
+    def __init__(self, quality: int):
+        """
+        Метод класса, который принимает значение качества сжатия и инициализирует атрибут `__quality`.
+
+        params: quality (int): Значение качества сжатия.
+        """
         self.__quality = quality
         register_heif_opener()
 
@@ -14,7 +19,7 @@ class ImageCompressor:
         """
         Сжимает изображение и сохраняет его в формате HEIF.
 
-        Args:
+        params: 
             input_path (str): Путь к исходному изображению.
             output_path (str): Путь для сохранения сжатого изображения.
 
@@ -42,6 +47,26 @@ class ImageCompressor:
                     input_path = os.path.join(root, file)
                     output_path = os.path.splitext(input_path)[0] + '.heic'
                     self.compress_image(input_path, output_path)
+
+    @property
+    def quality(self) -> int:
+        """
+        Геттер для получения значения качества сжатия.
+
+        Returns:
+            int: Значение качества сжатия.
+        """
+        return self.__quality
+
+    @quality.setter
+    def quality(self, quality: int) -> None:
+        """
+        Сеттер для установки значения качества сжатия.
+
+        Args:
+            quality (int): Новое значение качества сжатия.
+        """
+        self.__quality = quality
 
     def process_input(self, input_path: str) -> None:
         """
@@ -72,5 +97,6 @@ class ImageCompressor:
 
 if __name__ == "__main__":
     user_input: str = input("Введите путь к файлу или директории: ")
-    compressor = ImageCompressor(quality=50)
+    quality: int = int(input("Введите значение качества сжатия (1-100): "))
+    compressor = ImageCompressor(quality=quality)
     compressor.process_input(user_input)
